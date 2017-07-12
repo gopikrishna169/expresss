@@ -18,10 +18,17 @@ app.set('view engine', 'jade');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(function(req, res, next) {  
+      res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+      res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Origin, Access-Control-Allow-Headers,Access-Control-Allow-Credentials ,Access-Control-Request-Method, Access-Control-Request-Headers,Origin, X-Requested-With, Content-Type, Accept, Authorization");
+      res.header("Access-Control-Allow-Methods",'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+      res.header("Access-Control-Allow-Credentials",'true');
+      next();
+ });  
 app.use('/', routes);
 app.use('/users', users);
 
